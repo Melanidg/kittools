@@ -2,10 +2,27 @@
 
 <div class="container">
 
-  <form method="post">
+  <form method="post" action="/signup">
+
     <label for="username">Username</label>
-    <input name="username" id="username" required>
+    <input name="username" id="nombre" required>
     <label for="password">Password</label>
-    <input type="password" name="password" id="password" required>
+    <input type="password" id ="signupPassword" name="clave" id="password" required>
     <input type="submit" value="Inicia sesion">
+    
+    <label for="signupPassword">telefono</label>
+    <div>
+    <div class="form-floating mb-3">
+    <input type="text" class="form-control" id="signDireccion" name="direccion" required>
+    <label for="signupDireccion">telefono</label>  
+    </div>
+    <div class="form-floating mb-3">
+    <input type="text" class="form-control" id="signDireccion" name="direccion" required>
+    <label for="signupDireccion">Correo electronico</label>  
+    </div>
+    <button class="w-100 btn btn-ig btn-success" type="submit">Registrarse</button>
+    <hr class="my-4">
+    <small class="text-body-secondary">
+      ¿ya tienes una cuenta? <a href="/signin">Inicia sesion</a>
+    </small>
   </form> 
