@@ -2,9 +2,17 @@ from flask import Flask, render_template, request, redirect, url_for
 from config import config
 from werkzeug.security import generate_password_hash
 from flask_mysqldb import MySQL
+from models.entities.User import User
+from models.ModelUser import ModelUser
+from flask_login import LoginManager, login_user, logout_user
 
 kittoolsApp = Flask(__name__)
 db          = MySQL(kittoolsApp)
+signinManager = LoginManager(kittoolsApp)
+
+@signinManager.user_loader
+def load_user(id):
+    return ModelUser.get_by_id(db, id)
 
 @kittoolsApp.route("/")
 def home():
