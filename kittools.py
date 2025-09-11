@@ -19,10 +19,23 @@ def home():
     return render_template('home.html')
 
 #Ruta para iniciar sesion
-@kittoolsApp.route('/signin')
+@kittoolsApp.route('/signin', methods=['POST','GET'])
 def signin():
-    return render_template('signin.html')
-
+    if request.method == 'POST':
+    usuario = User(0, None, request.form['correo'], request.form['clave'], None)
+    usuarioAutenticado = ModelUser.signin(db, usuario)
+    if usuarioAutenticado is not None:
+        if usuarioAutenticado.clave:
+            login_user(usuarioAutenticado)
+            if usuarioAutenticado.perfil == 'A':
+                return render_template('admin.html')
+            else:
+                return render_template('user.html')
+        else:
+            return 'clave incorrecta'
+    else:
+        return 'usuario inexistente'
+    
 #Ruta para registrarse
 @kittoolsApp.route('/signup', methods=['GET', 'POST'])
 def signup():
