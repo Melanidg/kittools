@@ -50,6 +50,37 @@ def signup():
         return redirect(url_for('home'))
     else:
         return render_template('signup.html')
+    
+@kittoolsApp.route('/admin', methods=['POST', 'GET'])
+def admin():
+         return render_template('admin.html')
+
+if __name__ == '__main__':
+    kittoolsApp.config.from_object(config['development'])
+    kittoolsApp.run(port=3300)
+
+
+
+
+
+
+    @kittoolsApp.route('/admin', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        correo = request.form['correo']
+        clave = request.form['clave']
+        claveCifrada = generate_password_hash(clave)
+        regUsuario = db.connection.cursor()
+        regUsuario.execute("INSERT INTO usuario (nombre, correo, clave) VALUES (%s, %s, %s)", (nombre.upper(), correo, clave))
+        db.connection.commit()
+        return redirect(url_for('home'))
+    else:
+        return render_template('signup.html')
+    
+@kittoolsApp.route('/admin', methods=['POST', 'GET'])
+def admin():
+         return render_template('admin.html')
 
 if __name__ == '__main__':
     kittoolsApp.config.from_object(config['development'])
