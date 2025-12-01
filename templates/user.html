@@ -55,4 +55,23 @@
     <h1>Hello, world!</h1>
   </body>
 </html>
+<div class="container">
+  <div class="row row-cols-1 row-cols-md-3 g-4 h-7 w-7">
+    {% for p in productos %}
+  <div class="col">
+    <div class="card h-100">
+      <img src="/static/img/{{p[6]}}" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">{{p[1]}}</h5>
+        <p class="card-text">{{p[2]}}</p>
+        <p class="card-text">{{p[3]}}</p>
+        <p class="card-text">{{p[4]}}</p>
+      </div>
+      <div class="card-footer">
+        <small class="text-body-secondary">Last updated 3 mins ago</small>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+</div>
 {% endblock %}

@@ -7,7 +7,7 @@ from models.ModelUser import ModelUser
 from flask_login import LoginManager, login_user, logout_user
 
 kittoolsApp = Flask(__name__)
-db          = MySQL(kittoolsApp)
+db = MySQL(kittoolsApp)
 signinManager = LoginManager(kittoolsApp)
 
 @signinManager.user_loader
@@ -30,7 +30,10 @@ def signin():
             if usuarioAutenticado.perfil == 'A':
                 return render_template('admin.html')
             else:
-                return render_template('user.html')
+                selProductos = db.connection.cursor()
+                selProductos.execute("SELECT * FROM productos")
+                p = selProductos.fetchall()
+                return render_template('user.html',productos = p )
         else:
             return 'clave incorrecta'
     else:
@@ -50,37 +53,33 @@ def signup():
         return redirect(url_for('home'))
     else:
         return render_template('signup.html')
-    
+
+
+
 @kittoolsApp.route('/admin', methods=['POST', 'GET'])
 def admin():
          return render_template('admin.html')
 
-if __name__ == '__main__':
-    kittoolsApp.config.from_object(config['development'])
-    kittoolsApp.run(port=3300)
+
+@kittoolsApp.route('/sUser', methods=['POST','GET'])
+def sUser():
+    selUser = db.connection.cursor()
+    selUser.execute("SELECT * FROM user")
+    u = selUser.fetchall()
+    return render_template('users.html', user = u ) 
 
 
+@kittoolsApp.route('/sProductos', methods=['POST','GET'])
+def sProductos():
+    selProductos = db.connection.cursor()
+    selProductos.execute("SELECT * FROM productos")
+    p = selProductos.fetchall()
+    return render_template('productos.html', productos = p)  
 
 
-
-
-    @kittoolsApp.route('/admin', methods=['GET', 'POST'])
-def signup():
-    if request.method == 'POST':
-        nombre = request.form['nombre']
-        correo = request.form['correo']
-        clave = request.form['clave']
-        claveCifrada = generate_password_hash(clave)
-        regUsuario = db.connection.cursor()
-        regUsuario.execute("INSERT INTO usuario (nombre, correo, clave) VALUES (%s, %s, %s)", (nombre.upper(), correo, clave))
-        db.connection.commit()
-        return redirect(url_for('home'))
-    else:
-        return render_template('signup.html')
-    
-@kittoolsApp.route('/admin', methods=['POST', 'GET'])
-def admin():
-         return render_template('admin.html')
+@kittoolsApp.route('/user', methods=['POST', 'GET'])
+def user():
+         return render_template('user.html')
 
 if __name__ == '__main__':
     kittoolsApp.config.from_object(config['development'])

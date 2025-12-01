@@ -21,7 +21,7 @@
           </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="/sUsuario">Usuarios</a></li>
-            <li><a class="dropdown-item" href="/sproductos">Productos</a></li>
+            <li><a class="dropdown-item" href="/sProductos">Productos</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#">Something else here</a></li>
           </ul>
@@ -30,7 +30,7 @@
           <a class="nav-link">{{current_user.nombre}}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/signout">Cerrar Sesion</a>
+          <a class="nav-link" href="/signout">Cerrar</a>
         </li>
       </ul>
       <form class="d-flex" role="search">
@@ -46,22 +46,26 @@
     <thead>
       <th>ID</th>
       <th>NOMBRE</th>
-      <th>CORREO</th>
-      <th>CLAVE</th>
-      <th>PERFIL</th>
+      <th>DESCRIPCION</th>
+      <th>PRECIO</th>
+      <th>STOCK</th>
+      <th>CATEGORIA_ID</th>
+      <th>IMAGEN</th>
       <th colpan="2">&nbsp;</th>
     </thead>
     <tbody>
-      {% for u in usuarios %}
+      {% for p in productos %}
       <tr>
-        <td>{{u[0]}}</td>
-        <td>{{u[1]}}</td>
-        <td>{{u[2]}}</td>
-        <td>{{u[3]|truncate(25)}}</td>
-        <td>{{u[4]}}</td>
+        <td>{{P[0]}}</td>
+        <td>{{P[1]}}</td>
+        <td>{{P[2]}}</td>
+        <td>{{P[3]}}</td>
+        <td>{{P[4]}}</td>
+        <td>{{P[5]}}</td>
+        <td><img src="/static/img/{{P[6]}}" height="80" alt=""></td>
         <td>
           <!-- Button Editar -->
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editar{{u[0]}}">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editar{{P[0]}}">
           <i class="fa-solid fa-user-pen"></i>
           Editar
           </button>
@@ -71,7 +75,7 @@
       
 
       <!-- Modal Editar -->
-      <div class="modal fade" id="editar{{u[0]}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" id="editar{{P[0]}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -82,19 +86,19 @@
             <div class="modal-body">
               <!-- Nombre -->
               <label for="inputPassword5" class="form-label">Nombre</label>
-              <input type="nombre" name="nombre" value="{{u[1]}}" id="inputPassword5" class="form-control" aria-describedby="nombrecompleto">
+              <input type="nombre" name="nombre" value="{{P[1]}}" id="inputPassword5" class="form-control" aria-describedby="nombrecompleto">
               <div id="nombrecompleto" class="form-text">
                 Introduce un nombre completo
               </div>
               <!-- Correo -->
               <label for="correo" class="form-label">Correo</label>
-              <input type="email" name="correo" value="{{u[2]}}" id="correo" class="form-control" aria-describedby="ayudacorreo">
+              <input type="email" name="correo" value="{{P[2]}}" id="correo" class="form-control" aria-describedby="ayudacorreo">
               <div id="ayudacorreo" class="form-text">
                 Introduce un correo
               </div>
               <!-- Clave -->
             <label for="clave" class="form-label">Clave</label>
-            <input type="password" name="clave" value="{{u[3]}}" id="clave" class="form-control" aria-describedby="ayudaclave">
+            <input type="password" name="clave" value="{{P[3]}}" id="clave" class="form-control" aria-describedby="ayudaclave">
             <div id="ayudaclave" class="form-text">
               Introduce una clave
             </div>
@@ -103,7 +107,7 @@
               <label for="perfil" class="form-label">Perfil</label>
               <select class="form-select" aria-label="Default select example">
               <option>Selecciona un perfil</option>
-              {% if u[4] == "A" %}
+              {% if P[4] == "A" %}
               <option selected value="A">Administrador</option>
               <option value="U">Usuario</option>
               {% else %}
